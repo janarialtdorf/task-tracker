@@ -182,3 +182,11 @@
     border-right-color: var(--border);
   }
 }
+
+.task-card {
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  color: #bcb2b2;
+}
