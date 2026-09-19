@@ -1,5 +1,6 @@
 import { Header } from './components/Header';
 import { TaskCard } from './components/TaskCard';
+import { TaskForm } from './components/TaskForm';
 import './App.css';
 import { useState } from 'react';
 
@@ -34,9 +35,14 @@ function App() {
     filteredTasks = tasks.filter((task) => !task.completed);
   }
 
+  function handleAddTask(title) {
+    console.log('New task:', title);
+  }
+
   return (
     <div>
       <Header />
+      <TaskForm onAddTask={handleAddTask} />
       <div>
         <button onClick={() => setFilter('all')}>All</button>
         <button onClick={() => setFilter('completed')}>Completed</button>
