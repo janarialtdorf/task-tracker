@@ -1,3 +1,14 @@
+import { NavLink } from 'react-router';
+
 export function Header() {
-    return <h1>Task Tracker</h1>
+  return (
+    <header>
+      <h1>Task Tracker</h1>
+
+      <nav>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/tasks">Tasks</NavLink>
+      </nav>
+    </header>
+  );
 }

@@ -1,8 +1,11 @@
 import { Header } from './components/Header';
-import { TaskCard } from './components/TaskCard';
-import { TaskForm } from './components/TaskForm';
 import './App.css';
 import { useState } from 'react';
+import { Route, Routes } from 'react-router';
+import { HomePage } from './pages/HomePage';
+import { TasksPage } from './pages/TasksPage';
+import { TaskDetailsPage } from './pages/TaskDetailsPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 function App() {
   const [filter, setFilter] = useState('all');
@@ -23,16 +26,6 @@ function App() {
       completed: false,
     },
   ]);
-
-  let filteredTasks = tasks;
-
-  if (filter === 'completed') {
-    filteredTasks = tasks.filter((task) => task.completed);
-  }
-
-  if (filter === 'not completed') {
-    filteredTasks = tasks.filter((task) => !task.completed);
-  }
 
   function handleAddTask(title) {
     setTasks((currentTasks) => [
@@ -62,27 +55,32 @@ function App() {
   }
 
   return (
-    <div>
+    <>
       <Header />
-      <TaskForm onAddTask={handleAddTask} />
-      <div>
-        <button onClick={() => setFilter('all')}>All</button>
-        <button onClick={() => setFilter('completed')}>Completed</button>
-        <button onClick={() => setFilter('not completed')}>
-          Not Completed
-        </button>
-      </div>
-      {filteredTasks.length === 0 && <p>No tasks found</p>}
 
-      {filteredTasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          onToggle={handleToggleTask}
-          onDelete={handleDeleteTask}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/tasks"
+          element={
+            <TasksPage
+              tasks={tasks}
+              filter={filter}
+              setFilter={setFilter}
+              onAddTask={handleAddTask}
+              onToggle={handleToggleTask}
+              onDelete={handleDeleteTask}
+            />
+          }
         />
-      ))}
-    </div>
+        <Route
+          path="/tasks/:taskId"
+          element={<TaskDetailsPage tasks={tasks} />}
+        />
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </>
   );
 }
 
