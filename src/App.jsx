@@ -4,26 +4,25 @@ import { TaskForm } from './components/TaskForm';
 import './App.css';
 import { useState } from 'react';
 
-const tasks = [
-  {
-    id: 1,
-    title: 'Learn JSX',
-    completed: false,
-  },
-  {
-    id: 2,
-    title: 'Practise React state',
-    completed: false,
-  },
-  {
-    id: 3,
-    title: 'Build a Node.js API',
-    completed: false,
-  },
-];
-
 function App() {
   const [filter, setFilter] = useState('all');
+  const [tasks, setTasks] = useState([
+    {
+      id: 1,
+      title: 'Learn JSX',
+      completed: false,
+    },
+    {
+      id: 2,
+      title: 'Practise React state',
+      completed: false,
+    },
+    {
+      id: 3,
+      title: 'Build a Node.js API',
+      completed: false,
+    },
+  ]);
 
   let filteredTasks = tasks;
 
@@ -36,7 +35,30 @@ function App() {
   }
 
   function handleAddTask(title) {
-    console.log('New task:', title);
+    setTasks((currentTasks) => [
+      ...currentTasks,
+      {
+        id: currentTasks.length
+          ? currentTasks[currentTasks.length - 1].id + 1
+          : 1,
+        title,
+        completed: false,
+      },
+    ]);
+  }
+
+  function handleToggleTask(taskId) {
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task,
+      ),
+    );
+  }
+
+  function handleDeleteTask(taskId) {
+    setTasks((currentTasks) =>
+      currentTasks.filter((task) => task.id !== taskId),
+    );
   }
 
   return (
@@ -53,7 +75,12 @@ function App() {
       {filteredTasks.length === 0 && <p>No tasks found</p>}
 
       {filteredTasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
+        <TaskCard
+          key={task.id}
+          task={task}
+          onToggle={handleToggleTask}
+          onDelete={handleDeleteTask}
+        />
       ))}
     </div>
   );
