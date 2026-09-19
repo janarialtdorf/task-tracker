@@ -6,7 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { TasksPage } from './pages/TasksPage';
 import { TaskDetailsPage } from './pages/TaskDetailsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { getTasks } from './services/TaskApi';
+import { getTasks } from './services/taskApi';
 
 function App() {
   const [filter, setFilter] = useState('all');
