@@ -1,5 +1,7 @@
 import { TaskCard } from '../components/TaskCard';
 import { TaskForm } from '../components/TaskForm';
+import { TaskList } from '../components/TaskList';
+import { PageSection } from '../components/PageSection';
 
 export function TasksPage({
   tasks,
@@ -40,14 +42,13 @@ export function TasksPage({
       {!loading && filteredTasks.length === 0 && <p>No tasks found</p>}
       {error && <p>{error}</p>}
 
-      {filteredTasks.map((task) => (
-        <TaskCard
-          key={task.id}
-          task={task}
+      <PageSection title="My tasks">
+        <TaskList
+          tasks={filteredTasks}
           onToggle={onToggle}
           onDelete={onDelete}
         />
-      ))}
+      </PageSection>
     </div>
   );
 }
