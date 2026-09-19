@@ -5,7 +5,7 @@ export function Header() {
     <header>
       <h1>Task Tracker</h1>
 
-      <nav>
+      <nav className="navbar">
         <NavLink to="/">Home</NavLink>
         <NavLink to="/tasks">Tasks</NavLink>
       </nav>

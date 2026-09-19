@@ -1,31 +1,49 @@
 import { Header } from './components/Header';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Route, Routes } from 'react-router';
 import { HomePage } from './pages/HomePage';
 import { TasksPage } from './pages/TasksPage';
 import { TaskDetailsPage } from './pages/TaskDetailsPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { getTasks } from './services/TaskApi';
 
 function App() {
   const [filter, setFilter] = useState('all');
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: 'Learn JSX',
-      completed: false,
-    },
-    {
-      id: 2,
-      title: 'Practise React state',
-      completed: false,
-    },
-    {
-      id: 3,
-      title: 'Build a Node.js API',
-      completed: false,
-    },
-  ]);
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadTasks() {
+      try {
+        setLoading(true);
+        setError('');
+
+        const loadedTasks = await getTasks();
+
+        if (!cancelled) {
+          setTasks(loadedTasks);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          setError(error.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    }
+
+    loadTasks();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   function handleAddTask(title) {
     setTasks((currentTasks) => [
@@ -70,6 +88,8 @@ function App() {
               onAddTask={handleAddTask}
               onToggle={handleToggleTask}
               onDelete={handleDeleteTask}
+              loading={loading}
+              error={error}
             />
           }
         />

@@ -190,3 +190,12 @@
   border-radius: 8px;
   color: #bcb2b2;
 }
+
+.navbar {
+  display: flex;
+  gap: 24px;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  border: 1px solid #ddd;
+  background-color: #04192f;
+}

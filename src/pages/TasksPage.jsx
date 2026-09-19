@@ -8,6 +8,8 @@ export function TasksPage({
   onAddTask,
   onToggle,
   onDelete,
+  error,
+  loading,
 }) {
   let filteredTasks = tasks;
 
@@ -33,7 +35,10 @@ export function TasksPage({
         </button>
       </div>
 
-      {filteredTasks.length === 0 && <p>No tasks found</p>}
+      {loading && <p>Loading tasks...</p>}
+
+      {!loading && filteredTasks.length === 0 && <p>No tasks found</p>}
+      {error && <p>{error}</p>}
 
       {filteredTasks.map((task) => (
         <TaskCard
